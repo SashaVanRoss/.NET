@@ -57,9 +57,11 @@ namespace Examen.ViewModels
             ObservableCollection<ProductModel> localCollection = new ObservableCollection<ProductModel>();
             foreach (var item in dc.Products)
             {
-                localCollection.Add(new ProductModel(item));
+                if (!item.Discontinued)
+                {
+                   localCollection.Add(new ProductModel(item));
+                }
             }
-            
             return localCollection;
         }
 
@@ -93,7 +95,7 @@ namespace Examen.ViewModels
         }
 
         private void DiscontinueProduct()
-        {      
+        {
             dc.Products.Find(SelectedProduct.MonProduct.ProductId).Discontinued = true;
             dc.SaveChanges();
             ProductsList.Remove(SelectedProduct);
